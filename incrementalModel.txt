@@ -1,0 +1,18 @@
+sqlmesh evaluate SQLMESH_STG_T35.employee_TIME_RANGE
+
+MODEL (
+  name SQLMESH_STG_T10.employee_TIME_RANGE,
+  start '2024-01-02',
+  kind INCREMENTAL_BY_TIME_RANGE (
+    time_column HIRE_DATE -- This model's time information is stored in the `event_date` column
+  )
+);
+
+SELECT 
+First_name,
+Last_name,
+Salary,
+HIRE_DATE,
+JOINING_DATE 
+from DEV.Employee
+WHERE HIRE_DATE>=DATEADD(DAY, -10, CURRENT_TIMESTAMP);
